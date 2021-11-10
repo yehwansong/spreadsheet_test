@@ -28,13 +28,13 @@
 		var near = 0.1;
 		var far  = 1000;
 		var camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-		camera.position.z = 0
-		camera.position.y = 5
+			camera.position.z = 0
+			camera.position.y = 5
 		var rot_counter = -10
-		camera.rotation.x = degrees_to_radians(rot_counter)
+			camera.rotation.x = degrees_to_radians(rot_counter)
 		var camera_group = new THREE.Group()
 		scene.add(camera_group)
-		camera_group.add(camera)
+			camera_group.add(camera)
 			camera_group.rotation.y = degrees_to_radians(90)
 
 		var up = false
@@ -218,7 +218,7 @@
 
 
 
-				data_array = JSON.parse(this.responseText).values
+			data_array = JSON.parse(this.responseText).values
 
 
 		scene.add(group);
