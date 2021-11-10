@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		#app-main,html,body{
+			overflow: hidden;
+			width: 100vw;
+			height: 100%
+		}
+	</style>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+	
+	$(document).ready(function(){
+	})
+	</script>
+	<script type="text/javascript" src='three.js'></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		var scene = new THREE.Scene();
+
+		var geometry = new THREE.BoxGeometry(1, 1, 1);
+		var geometry_sphere = new THREE.SphereGeometry( 0.5, 10, 10 );
+		var material = new THREE.MeshBasicMaterial({ color: 0x2196f3 });
+		var fov = 55;
+		var aspect = window.innerWidth / window.innerHeight;
+		var near = 0.1;
+		var far  = 1000;
+		var camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+		camera.position.z = 0
+		camera.position.y = 5
+		var rot_counter = -10
+		camera.rotation.x = degrees_to_radians(rot_counter)
+		var camera_group = new THREE.Group()
+		scene.add(camera_group)
+		camera_group.add(camera)
+			camera_group.rotation.y = degrees_to_radians(90)
+
+		var up = false
+		var left = false
+		var right = false
+		var down = false
+		var speed = 1.0;
+		var dir = new THREE.Vector3();
+
+			    let loader = new THREE.TextureLoader();
+
+		var counter = 0
+		var angle_counter = 90
+		var pos_counter = 0
+		var group = new THREE.Group()
+
+		var renderer = new THREE.WebGLRenderer({antialias:1, alpha: 1});
+		renderer.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1);
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		renderer.domElement.classList.add('vignette');
+		document.getElementById('app-main').appendChild( renderer.domElement );
+
+
+
+	    var alphabet_array = Array(27)
+	    var alphabet_array0 = Array(27)
+	    for (var i = 26; i >= 0; i--) {
+		    alphabet_array[i] = loader.load( 'img/cha-'+paddy(i,2)+'.png' );
+	    	alphabet_array[i].wrapS = THREE.RepeatWrapping;
+	    	alphabet_array[i].wrapT = THREE.RepeatWrapping;
+		    alphabet_array[i].repeat.set(-1,1);
+	    }
+	    for (var i = 26; i >= 0; i--) {
+		    alphabet_array0[i] = loader.load( 'img/cha-'+paddy(i,2)+'.png' );
+	    	alphabet_array0[i].wrapS = THREE.RepeatWrapping;
+	    	alphabet_array0[i].wrapT = THREE.RepeatWrapping;
+		    alphabet_array0[i].repeat.set(-2,0.8);
+	    }
+
+
+
+		get_data_array()
+
+		function paddy(num, padlen, padchar) {
+		    var pad_char = typeof padchar !== 'undefined' ? padchar : '0';
+		    var pad = new Array(1 + padlen).join(pad_char);
+		    return (pad + num).slice(-pad.length);
+		}
+		var y = window.innerHeight/2
+	    $(document).mousemove(function(e){
+	    	y = e.pageY
+	    });
+	    
+		function onUpdate() {
+			counter = counter + 0.25
+
+			if(up){
+				speed = -0.5
+				camera_group.getWorldDirection( dir );
+  				camera_group.position.addScaledVector( dir, speed );
+		 	}
+			if(down){
+				speed = 0.5
+				camera_group.getWorldDirection( dir );
+  				camera_group.position.addScaledVector( dir, speed );
+		 	}
+			if(right){
+				angle_counter = angle_counter-1
+				camera_group.rotation.y = degrees_to_radians(angle_counter)
+			}
+			if(left){
+				angle_counter = angle_counter+1
+				camera_group.rotation.y = degrees_to_radians(angle_counter)
+			}
+			if(y > window.innerHeight/4*3){
+					rot_counter = rot_counter-0.1}
+			if(y < window.innerHeight/4){
+		rot_counter = rot_counter+0.1
+
+					}
+		camera.rotation.x = degrees_to_radians(rot_counter)
+		}
+
+		function render() {
+			requestAnimationFrame(render);
+		  	onUpdate();
+			renderer.render(scene, camera);
+		}
+		render();
+
+
+
+
+
+
+
+
+
+
+
+	function ch_to_tex(ch){
+		// return 1
+			 if(ch.toLowerCase() === 'a'){return 1 }
+		else if(ch.toLowerCase() === 'b'){return 2 }
+		else if(ch.toLowerCase() === 'c'){return 3 }
+		else if(ch.toLowerCase() === 'd'){return 4 }
+		else if(ch.toLowerCase() === 'e'){return 5 }
+		else if(ch.toLowerCase() === 'f'){return 6 }
+		else if(ch.toLowerCase() === 'g'){return 7 }
+		else if(ch.toLowerCase() === 'h'){return 8 }
+		else if(ch.toLowerCase() === 'i'){return 9 }
+		else if(ch.toLowerCase() === 'j'){return 10}
+		else if(ch.toLowerCase() === 'k'){return 11}
+		else if(ch.toLowerCase() === 'l'){return 12}
+		else if(ch.toLowerCase() === 'm'){return 13}
+		else if(ch.toLowerCase() === 'n'){return 14}
+		else if(ch.toLowerCase() === 'o'){return 15}
+		else if(ch.toLowerCase() === 'p'){return 16}
+		else if(ch.toLowerCase() === 'q'){return 17}
+		else if(ch.toLowerCase() === 'r'){return 18}
+		else if(ch.toLowerCase() === 's'){return 19}
+		else if(ch.toLowerCase() === 't'){return 20}
+		else if(ch.toLowerCase() === 'u'){return 21}
+		else if(ch.toLowerCase() === 'v'){return 22}
+		else if(ch.toLowerCase() === 'w'){return 23}
+		else if(ch.toLowerCase() === 'x'){return 24}
+		else if(ch.toLowerCase() === 'y'){return 25}
+		else if(ch.toLowerCase() === 'z'){return 26}
+		else{return 0}
+	}
+
+
+	
+	var key_pressed = false
+				document.addEventListener('keydown',press)
+				function press(e){
+					$('.cursor_popup').fadeOut(300)
+					key_pressed = true
+					if (e.keyCode === 38 /* up */ || e.keyCode === 87 /* w */ || e.keyCode === 90 /* z */){
+					up = true
+					}
+					if (e.keyCode === 39 /* right */ || e.keyCode === 68 /* d */){
+					right = true
+					}
+					if (e.keyCode === 40 /* down */ || e.keyCode === 83 /* s */){
+					down = true
+					}
+					if (e.keyCode === 37 /* left */ || e.keyCode === 65 /* a */ || e.keyCode === 81 /* q */){
+					left = true
+					}
+				}
+				document.addEventListener('keyup',release)
+				function release(e){
+					if (e.keyCode === 38 /* up */ || e.keyCode === 87 /* w */ || e.keyCode === 90 /* z */){
+					up = false
+					}
+					if (e.keyCode === 39 /* right */ || e.keyCode === 68 /* d */){
+					right = false
+					}
+					if (e.keyCode === 40 /* down */ || e.keyCode === 83 /* s */){
+					down = false
+					}
+					if (e.keyCode === 37 /* left */ || e.keyCode === 65 /* a */ || e.keyCode === 81 /* q */){
+					left = false
+					}
+					if( up || right || down || left ){}else{key_pressed = false}
+				}
+
+
+	function componentToHex(c) {
+		var hex = c.toString(16);
+		return hex.length == 1 ? "0" + hex : hex;
+	}
+	function rgbToHex(r, g, b) {
+		return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+	}
+	function get_data_array() {
+	 	var xhttp = new XMLHttpRequest();
+	  	xhttp.onreadystatechange = function() {
+		    if (this.readyState == 4 && this.status == 200) {
+
+
+
+				data_array = JSON.parse(this.responseText).values
+
+
+		scene.add(group);
+		group.position.x = -1*data_array.length/2 + 0.5
+		group.position.z = data_array[0].length/2 - 0.5
+		group.position.y = 0.5
+		group.scale.z = -1
+
+			    var texture = loader.load( 'img/cha-00.png' );
+			    texture.wrapS = THREE.RepeatWrapping;
+			    texture.wrapT = THREE.RepeatWrapping;
+			    texture.repeat.set(data_array.length, data_array[0].length);
+
+			    var texture_door = loader.load( 'img/door.png' );
+			    texture_door.repeat.set(1,1);
+
+				const plane = new THREE.Mesh( new THREE.PlaneGeometry( data_array.length, data_array[0].length ), new THREE.MeshBasicMaterial( {map:texture, side: THREE.DoubleSide} ) );
+				plane.rotation.x=degrees_to_radians(90)
+				group.add( plane );
+				plane.position.x = data_array.length/2 - 0.5
+				plane.position.z = data_array[0].length/2 - 0.5
+				plane.position.y = -0.5
+
+				const door = new THREE.Mesh( new THREE.PlaneGeometry( 2, 4 ), new THREE.MeshBasicMaterial( {map:texture_door, side: THREE.DoubleSide} ) );
+				door.position.x = -1*data_array.length/2 + 1
+				door.position.z = data_array[0].length/2
+				door.position.y = 2
+				door.name = door
+				scene.add( door );
+
+				var raycaster = new THREE.Raycaster();
+				var mouse = new THREE.Vector2();
+				window.addEventListener('click', onDocumentMouseDown, false);
+				function onDocumentMouseDown( event ) {
+				    event.preventDefault();
+
+				    mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
+				    mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
+
+				    raycaster.setFromCamera( mouse, camera );
+
+				    var intersects = raycaster.intersectObjects( scene.children ); 
+				    if ( intersects.length > 0 ) {
+				        	window.location.href = "http://theverycommonland.site/group2_three.html";
+				    }
+				}
+
+				for (var i = data_array.length - 1; i >= 0; i--) {
+					for (var j = data_array[i].length - 1; j >= 0; j--) {
+						if(data_array[i][j] === 'TRUE'){
+							var obj     = new THREE.Mesh(geometry, material);
+							obj.position.set(i,0,j)
+							group.add(obj)
+
+						}else if(data_array[i][j] === 'FALSE'){
+
+						}else{
+							data_array[i][j] = replaceAll(data_array[i][j], ' ', '')
+							data_array[i][j] = replaceAll(data_array[i][j], ':', '=')
+							data_array[i][j] = replaceAll(data_array[i][j], 'https=//', 'https://')
+							data_array[i][j] = replaceAll(data_array[i][j], 'http=//', 'http://')
+								for (var k = 0; k < data_array[i][j].split('{').length - 1; k++) {
+									var val = data_array[i][j].split('{')[k+1].split('}')[0]
+									var floor = k
+									var color = '#2196f3'
+									var shape = 'box'
+									var text = '*'
+									for (var m = val.split(';').length - 1; m >= 0; m--) {
+										if(val.split(';')[m].split('=')[0] ==='color'){
+											if(val.split(';')[m].split('=')[1].split('#').length>1){
+											color = val.split(';')[m].split('=')[1]
+												
+											}else if (val.split(';')[m].split('=')[1].split('rgb(').length>1){
+												color = rgbToHex(val.split(';')[m].split('=')[1].split('rgb(')[1].split(')')[0])
+												
+											}
+										}
+										if(val.split(';')[m].split('=')[0] ==='shape'){
+											shape = val.split(';')[m].split('=')[1]
+										}
+										if(val.split(';')[m].split('=')[0] ==='text'){
+											text = val.split(';')[m].split('=')[1]
+										}
+									}
+									if(shape === 'box'){
+										var obj     = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ color: color }));
+											obj.position.set(i,(k),j)
+											group.add(obj)
+									var tex = alphabet_array[ch_to_tex(text)]
+									}
+									else{
+										var obj     = new THREE.Mesh(geometry_sphere, new THREE.MeshBasicMaterial({ color: color }));
+											obj.position.set(i,(k),j)
+											group.add(obj)
+									var tex = alphabet_array0[ch_to_tex(text)]
+									}
+									obj.material.map = tex
+									obj.material.side = THREE.DoubleSide;
+								}
+							}
+						}
+					}
+				}
+		    }
+	  	xhttp.open("GET", "https://sheets.googleapis.com/v4/spreadsheets/SPREADSHEET_ID/values/SHEETNAME?key=APIKEY");
+		xhttp.send();
+
+	}
+function replaceAll(str, find, replace) {
+  return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+}
+function escapeRegExp(string) {
+  return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+function degrees_to_radians(degrees){
+    var pi = Math.PI;
+    return degrees * (pi/180);
+}
+
+
+	})
+	</script>
+	<style type="text/css">
+		*{
+			margin: 0;
+			box-sizing: border-box;
+		}
+		body, html{
+
+		}
+	</style>
+</head>
+<body>
+  <div id="app-main"></div>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+	function get_data_array() {
+	 	var xhttp = new XMLHttpRequest();
+	  	xhttp.onreadystatechange = function() {
+		    if (this.readyState == 4 && this.status == 200) {
+				data_array = JSON.parse(this.responseText).values
+						console.log(data_array)
+				for (var i = data_array.length - 1; i >= 0; i--) {
+					for (var j = data_array[i].length - 1; j >= 0; j--) {
+						$('.wrapper').append('<div class="elem elem_'+i+'_'+j+'" style="top:'+2.5*i+'vh; left:'+2.5*j+'vh"></div>')
+						if(data_array[i][j] === 'TRUE'){
+							$('.elem_'+i+'_'+j).css({'background-color':'#2196f3'})
+						}else if(data_array[i][j] === 'FALSE'){
+
+						}else if(data_array[i][j].split('{').length>1){
+							data_array[i][j] = replaceAll(data_array[i][j], ' ', '')
+							data_array[i][j] = replaceAll(data_array[i][j], ':', '=')
+							data_array[i][j] = replaceAll(data_array[i][j], 'https=//', 'https://')
+							data_array[i][j] = replaceAll(data_array[i][j], 'http=//', 'http://')
+							var val = data_array[i][j].split('{')[1].split('}')[0]
+							for (var m = val.split(';').length - 1; m >= 0; m--) {
+								if(val.split(';')[m].split('=')[0] ==='color'){
+
+										$('.elem_'+i+'_'+j).css({'background-color':val.split(';')[m].split('=')[1]})
+
+								}
+								if(val.split(';')[m].split('=')[0] ==='shape'){
+									shape = val.split(';')[m].split('=')[1]
+									if  (val.split(';')[m].split('=')[1].toLowerCase()==='circle'
+										||val.split(';')[m].split('=')[1]==='sphere'){
+										$('.elem_'+i+'_'+j).css({'border-radius':'50%'})
+									}
+								}
+								if(val.split(';')[m].split('=')[0] ==='image'){
+									$('.elem_'+i+'_'+j).css({'background-image':'url('+val.split(';')[m].split('=')[1]+')'})
+								}
+								if(val.split(';')[m].split('=')[0] ==='text'){
+									$('.elem_'+i+'_'+j).html(val.split(';')[m].split('=')[1].split('')[0])
+								}
+							}
+							if(i==0&&j==0){
+								$('.wrapper').css({'width' : 2.5*(data_array[0].length - 1) +'vh'})
+								$('.wrapper').css({'height': 2.5*(data_array.length - 1) +'vh'})
+							}
+						}
+					}
+				}
+		    }
+	  	};
+	  	xhttp.open("GET", "https://sheets.googleapis.com/v4/spreadsheets/SPREADSHEET_ID/values/SHEETNAME?key=APIKEY");
+		xhttp.send();
+
+	}
+	function replaceAll(str, find, replace) {
+	  return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+	}
+	function escapeRegExp(string) {
+	  return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+	}
+	function degrees_to_radians(degrees){
+	    var pi = Math.PI;
+	    return degrees * (pi/180);
+	}
+	$(document).ready(function(){
+		get_data_array()
+	})
+	</script>
+	<style type="text/css">
+		@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&display=swap');
+		*{
+			font-family: 'Space Mono', monospace;
+			margin: 0;
+			box-sizing: border-box;
+		}
+		body, html{
+
+		}
+		.wrapper{
+			position: relative;
+			width: 
+		}
+		.elem{
+		    background-size: cover;
+		    background-repeat: no-repeat;
+		    background-position: center;
+		    position: absolute;
+		    border: 0.25px solid #d0d0d5;
+		    width: 2.5vh;
+		    height: 2.5vh;
+		    font-size: 2.3vh;
+		    text-align: center;
+		    text-transform: uppercase;
+		    line-height: 1;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrapper"></div>
+</body>
+</html>
