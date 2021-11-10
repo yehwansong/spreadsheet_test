@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+	get_data_array()
+	function get_data_array() {
+	 	var xhttp = new XMLHttpRequest();
+	  	xhttp.onreadystatechange = function() {
+		    if (this.readyState == 4 && this.status == 200) {
+				data_array = JSON.parse(this.responseText).values
+				console.log(data_array)
+			}
+	  	};
+	  	xhttp.open("GET", "https://sheets.googleapis.com/v4/spreadsheets/SPREADSHEET_ID/values/SHEETNAME?key=APIKEY");
+		xhttp.send();
+
+	}
+	</script>
+	<style type="text/css">
+	</style>
+</head>
+<body>
+	<div class="wrapper"></div>
+</body>
+</html>
