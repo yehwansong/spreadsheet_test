@@ -17,5 +17,6 @@ Then you can start changing the spreadsheet:the change will be directly applied 
 The properties that you can use for the spreadsheet are:<br>
 for 3D page : {color : #000000;  shape : cube;  text : A} {color : #000000;  shape : cube;  text : A}	<br>								
 for 2D page : {Hexcolorpicker :  #ffffff OR rgb(0,0,0)	OR imagelink; Shape : Sphere OR box ;Text : single alphabet}<br> 																								<br>
-it might be easier to understand if you take a look at the examples here:https://docs.google.com/spreadsheets/d/17-wdOY76BsW3Xr9MakF6hcJ1eM2G34RNKFfzVf5c144/edit#gid=1925615307
-
+it might be easier to understand if you take a look at the examples here:https://docs.google.com/spreadsheets/d/17-wdOY76BsW3Xr9MakF6hcJ1eM2G34RNKFfzVf5c144/edit#gid=1925615307<br>
+<br>
+Thanks! Chao!
